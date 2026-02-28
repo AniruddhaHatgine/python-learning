@@ -4,13 +4,13 @@ name_lower_case = name.lower()
 
 # name.lower() -> assign value to new variable "name_lower_case " and print new variable
 
-#print(name_upper_case)
+# print(name_upper_case)
 
-#print(name.lower())   # all in lowercase direct print output
+# print(name.lower())   # all in lowercase direct print output
 
 # print("Title", name.title()) # First Charater Capital of statement
 
-#print("Capitalize", name.capitalize())  # All Capital statement
+# print("Capitalize", name.capitalize())  # All Capital statement
 
 # print(name.swapcase())
 
@@ -30,9 +30,8 @@ word = "  Learn   "
 
 bike = "Super Ninja R15 Minja"
 
-#print(bike.find("p"))     # this is to find any text in given string
+# print(bike.find("p"))     # this is to find any text in given string
 
-#print(bike.index("Ninja"))  # index is to get the position of that string 
 
 #print(bike.count("j"))   # to get the count of give string or char/ letter
 
@@ -40,4 +39,3 @@ bike = "Super Ninja R15 Minja"
 
 #print(bike.startswith("Su"))  # True
 
-print(bike.endswith("ja"))     # True
