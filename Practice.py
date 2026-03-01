@@ -7,3 +7,6 @@ Car_city = "Sangli"
 print("Owner Name is me : ", Owner_name.istitle())
 print("Car Year is : ", Car_yoy.is_integer())
 print("Car digit is : ", Car_digit.isalnum())
+
+if not Owner_name.istitle():  # not means false
+    print("Error: Owner Name should be First letter capital..")

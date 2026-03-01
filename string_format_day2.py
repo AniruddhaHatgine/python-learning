@@ -1,6 +1,6 @@
 ## Validation Methods
 Owner_Name = "Aniruddha Hatgine"    # Database = Datatpe = String (plain text)
-Car_Year = 2020                     # Database = Datatype = Integer
+Car_Year = 2020                   # Database = Datatype = Integer
 Car_Number = "MH12AB1234"           # Database = Datatype = String (alphanumeric)
 Car_Chasis_Number = "12345"            # Database = Datatype = String (Emtyp Space) 
 Car_Comany_Name = "HONDA"           # Database = Datatype = String (Uppercase)
