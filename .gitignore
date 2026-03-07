@@ -1,1 +1,49 @@
-untrack.py
+from constraint import *
+
+def solve_magic_square():
+
+    # 1. Create a problem instance
+    problem = Problem()
+
+    # 2. Define variables for each cell (0 to 8) with domain 1 to 9
+    problem.addVariables(range(9), range(1, 10))
+
+    # 3. Define constraints
+
+    # All numbers must be different
+    problem.addConstraint(AllDifferentConstraint(), range(9))
+
+    # Magic sum for 3x3 square
+    magic_sum = 15
+
+    # Row constraints
+    problem.addConstraint(ExactSumConstraint(magic_sum), [0,1,2])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [3,4,5])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [6,7,8])
+
+    # Column constraints
+    problem.addConstraint(ExactSumConstraint(magic_sum), [0,3,6])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [1,4,7])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [2,5,8])
+
+    # Diagonal constraints
+    problem.addConstraint(ExactSumConstraint(magic_sum), [0,4,8])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [2,4,6])
+
+    # 4. Get solutions
+    solutions = problem.getSolutions()
+
+    # 5. Print solutions
+    if solutions:
+        print(f"Found {len(solutions)} magic squares:")
+        for sol in solutions:
+            print("-" * 13)
+            print(f"| {sol[0]} | {sol[1]} | {sol[2]} |")
+            print(f"| {sol[3]} | {sol[4]} | {sol[5]} |")
+            print(f"| {sol[6]} | {sol[7]} | {sol[8]} |")
+            print("-" * 13)
+    else:
+        print("No solutions found.")
+
+if __name__ == "__main__":
+    solve_magic_square()

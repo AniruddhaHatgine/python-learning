@@ -1,0 +1,34 @@
+from constraint import Problem, AllDifferentConstraint, ExactSumConstraint
+
+def solve_magic_square():
+
+    problem = Problem()
+
+    # variables (9 cells)
+    problem.addVariables(range(9), range(1,10))
+
+    # all numbers must be different
+    problem.addConstraint(AllDifferentConstraint(), range(9))
+
+    magic_sum = 15
+
+    # rows
+    problem.addConstraint(ExactSumConstraint(magic_sum), [0,1,2])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [3,4,5])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [6,7,8])
+
+    # columns
+    problem.addConstraint(ExactSumConstraint(magic_sum), [0,3,6])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [1,4,7])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [2,5,8])
+
+    # diagonals
+    problem.addConstraint(ExactSumConstraint(magic_sum), [0,4,8])
+    problem.addConstraint(ExactSumConstraint(magic_sum), [2,4,6])
+
+    solutions = problem.getSolutions()
+
+    for sol in solutions:
+        print(sol)
+
+solve_magic_square()

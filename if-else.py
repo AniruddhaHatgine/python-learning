@@ -1,4 +1,4 @@
-purchase=8000
+purchase=3000
 discount=500
 discount_abv_5k=1000
 discount_abv_7k=1500
