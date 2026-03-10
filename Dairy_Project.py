@@ -23,6 +23,7 @@ if user_input > 7:
 if user_input == 7:
     print("Medium Fat")
     amount = Liters * 40
+    
 if user_input < 7:
     print("Low Fat")
     amount = Liters * 30
