@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Stock Pro - Professional Stock Analysis Tool</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="data:application/manifest+json,{}">
+    <meta name="theme-color" content="#FFD700">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Stock Pro">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-block {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            min-height: 500px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            border: 1px solid #FFD700;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .feature-card h3 {
+            color: #FFA500;
+            margin-bottom: 1rem;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+
+        .auth-form {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid #FFD700;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FFA500;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .auth-link a {
+            color: #FFA500;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard */
+        .stock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stock-item {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+            padding: 0.75rem;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #FFD700;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stock-item:hover {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+            transform: translateY(-2px);
+        }
+
+        .stock-item button {
+            background: rgba(0,0,0,0.1);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+
+        /* Analysis Result */
+        .result-card {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .result-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* Watchlist */
+        .watchlist-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+            border-radius: 15px;
+            border: 1px solid #FFD700;
+        }
+
+        .watchlist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid #FFD700;
+        }
+
+        .watchlist-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Install Button */
+        .btn-install {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+            transition: all 0.3s;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .btn-install:hover {
+            transform: scale(1.05);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-4 { margin-top: 2rem; }
+        .mb-4 { margin-bottom: 2rem; }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .stock-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Logo -->
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <span>📈</span>
+                </div>
+                <div class="logo">Stock Pro</div>
+            </div>
+            <div class="user-info" id="userInfo">
+                <button class="btn btn-primary" onclick="showLoginPage()">Login</button>
+                <button class="btn btn-secondary" onclick="showRegisterPage()">Register</button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content" id="mainContent">
+            <!-- Content loads here -->
+        </div>
+    </div>
+
+    <script>
+        // ==================== LOCAL STORAGE AUTH (WORKS IMMEDIATELY) ====================
+        // No Supabase needed - works right away!
+        
+        let users = JSON.parse(localStorage.getItem('stockpro_users')) || {};
+        let currentUser = localStorage.getItem('stockpro_currentUser') || null;
+        
+        // ==================== STOCK DATA ====================
+        const stockData = {
+            fundamental: {
+                'rvnl': "📊 RVNL (Rail Vikas Nigam Limited)\n\n🏢 Business: RVNL is a Government PSU under the Ministry of Railways that works on railway infrastructure projects (EPC model). It executes projects such as electrification, track laying, bridges, metro & highways.\n\n🚀 Growth Drivers:\n• Expanding into Vande Bharat trains\n• Railway electrification projects\n• Metro rail projects across India\n• International projects in Middle East\n• Diversification into roads & logistics parks\n\n💡 Investment Highlights:\n• Strong government backing\n• Consistent order book growth\n• High execution capability\n• Expanding into new segments\n\n⚠️ Risks:\n• Government policy changes\n• Project execution delays\n• High dependency on railway sector",
+                
+                'reliance': "📊 Reliance Industries Limited\n\n🏢 Business: India's largest conglomerate with businesses in petrochemicals, refining, telecom (Jio), and retail.\n\n🚀 Growth Drivers:\n• 5G rollout and digital services\n• E-commerce expansion\n• Green energy (hydrogen, solar)\n• Retail store expansion\n\n💡 Investment Highlights:\n• Strong cash flows from energy business\n• Market leadership in telecom & retail\n• Debt-free balance sheet\n\n⚠️ Risks:\n• Oil price volatility\n• Telecom competition\n• Regulatory changes",
+                
+                'tcs': "📊 Tata Consultancy Services (TCS)\n\n🏢 Business: India's largest IT services company with global presence in consulting, cloud, and digital transformation.\n\n🚀 Growth Drivers:\n• Digital transformation demand\n• Cloud computing adoption\n• AI and automation services\n• Strong client relationships\n\n💡 Investment Highlights:\n• Industry leader with high margins\n• Consistent dividend payer\n• Strong balance sheet\n\n⚠️ Risks:\n• US visa regulations\n• Currency fluctuations\n• IT spending cycles",
+                
+                'infosys': "📊 Infosys Limited\n\n🏢 Business: Global IT company providing consulting and digital transformation services.\n\n🚀 Growth Drivers:\n• AI and automation focus\n• Cloud services expansion\n• Strong global client base\n\n💡 Investment Highlights:\n• Consistent revenue growth\n• Strong cash flows\n• Industry recognition\n\n⚠️ Risks:\n• Competition in IT sector\n• Attrition rates\n• Geopolitical risks"
+            },
+            technical: {
+                'rvnl': "📈 RVNL Technical Analysis\n\n🔹 Current Trend: Weak-to-sideways zone below key moving averages (50 & 200 EMA)\n\n🔹 Support Levels:\n• Immediate Support: ₹272–₹267\n• Strong Demand Zone: ₹258\n\n🔹 Resistance Levels:\n• Immediate Resistance: ₹285–₹294\n• Major Breakout Level: ₹300\n\n🔹 Indicators:\n• RSI: 30–40 zone (weak momentum)\n• Price Structure: Accumulation after correction\n\n🔹 Trading Strategy:\n• Accumulate near ₹270-₹280 zone\n• Breakout above ₹300 with volume can trigger fresh bullish momentum toward ₹320–₹350 levels\n• Stop Loss: Below ₹258",
+                
+                'reliance': "📈 Reliance Technical Analysis\n\n🔹 Current Trend: Consolidating near highs, holding above key moving averages\n\n🔹 Support Levels:\n• Strong Support: ₹2800\n\n🔹 Resistance Levels:\n• Immediate Resistance: ₹3000\n\n🔹 Indicators:\n• RSI: Bullish zone\n• Volume: Strong support\n\n🔹 Trading Strategy:\n• Accumulate on dips near ₹2800\n• Breakout above ₹3000 can trigger fresh rally toward ₹3200–₹3400\n• Stop Loss: Below ₹2750",
+                
+                'tcs': "📈 TCS Technical Analysis\n\n🔹 Current Trend: Trading sideways with support near ₹3700\n\n🔹 Support Levels: ₹3700, ₹3600\n\n🔹 Resistance Levels: ₹4000, ₹4100\n\n🔹 Strategy: Wait for breakout above ₹4100 for bullish momentum",
+                
+                'infosys': "📈 Infosys Technical Analysis\n\n🔹 Current Trend: Consolidation phase\n\n🔹 Support: ₹1400\n\n🔹 Resistance: ₹1550\n\n🔹 Strategy: Breakout above ₹1550 can trigger bullish move toward ₹1700"
+            },
+            profit: {
+                'rvnl': "📊 RVNL - 5 Year Net Profit (₹ Cr)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📅 2021: ₹992 Cr\n📅 2022: ₹1,087 Cr  (↑ 9.6%)\n📅 2023: ₹1,261 Cr  (↑ 16.0%)\n📅 2024: ₹1,475 Cr  (↑ 17.0%)\n📅 2025: ₹1,600 Cr  (↑ 8.5%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📈 CAGR (2021-2025): ~12.7%\n✅ Consistent profit growth year-on-year",
+                
+                'reliance': "📊 Reliance - 5 Year Net Profit (₹ Cr)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📅 2021: ₹53,739 Cr\n📅 2022: ₹60,705 Cr  (↑ 13.0%)\n📅 2023: ₹66,702 Cr  (↑ 9.9%)\n📅 2024: ₹79,020 Cr  (↑ 18.5%)\n📅 2025: ₹79,600 Cr  (↑ 0.7%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📈 Strong growth with stable profits",
+                
+                'tcs': "📊 TCS - 5 Year Net Profit (₹ Cr)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📅 2021: ₹32,562 Cr\n📅 2022: ₹38,449 Cr  (↑ 18.1%)\n📅 2023: ₹42,303 Cr  (↑ 10.0%)\n📅 2024: ₹46,099 Cr  (↑ 9.0%)\n📅 2025: ₹48,797 Cr  (↑ 5.9%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📈 Consistent profit growth",
+                
+                'infosys': "📊 Infosys - 5 Year Net Profit (₹ Cr)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📅 2021: ₹19,423 Cr\n📅 2022: ₹22,146 Cr  (↑ 14.0%)\n📅 2023: ₹24,108 Cr  (↑ 8.9%)\n📅 2024: ₹26,248 Cr  (↑ 8.9%)\n📅 2025: ₹26,750 Cr  (↑ 1.9%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📈 Steady growth trajectory"
+            },
+            shareholding: {
+                'rvnl': "👥 RVNL - Shareholding Pattern\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏢 Promoter: 72.0%\n🌍 FII: 5.0%\n🇮🇳 DII: 10.0%\n👥 Retail: 13.0%\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✅ High promoter holding shows confidence\n📊 Low FII holding - room for institutional buying",
+                
+                'reliance': "👥 Reliance - Shareholding Pattern\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏢 Promoter: 50.0%\n🌍 FII: 23.0%\n🇮🇳 DII: 15.0%\n👥 Retail: 12.0%\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✅ Balanced institutional ownership",
+                
+                'tcs': "👥 TCS - Shareholding Pattern\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏢 Promoter: 72.0%\n🌍 FII: 16.0%\n🇮🇳 DII: 8.0%\n👥 Retail: 4.0%\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✅ High promoter holding",
+                
+                'infosys': "👥 Infosys - Shareholding Pattern\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏢 Promoter: 15.0%\n🌍 FII: 33.0%\n🇮🇳 DII: 20.0%\n👥 Retail: 32.0%\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✅ Widely held by institutions"
+            }
+        };
+        
+        const availableStocks = [
+            'rvnl', 'reliance', 'tcs', 'infosys', 'hdfc bank', 'icici bank', 'sbi', 'itc',
+            'bharti airtel', 'lt', 'asian paints', 'maruti', 'tata motors', 'sun pharma', 'wipro'
+        ];
+        
+        // Watchlist
+        let watchlist = JSON.parse(localStorage.getItem(`stockpro_watchlist_${currentUser}`)) || [];
+        
+        function saveWatchlist() {
+            if (currentUser) {
+                localStorage.setItem(`stockpro_watchlist_${currentUser}`, JSON.stringify(watchlist));
+            }
+        }
+        
+        // ==================== UTILITY FUNCTIONS ====================
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            const mainContent = document.getElementById('mainContent');
+            mainContent.insertBefore(alertDiv, mainContent.firstChild);
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+        
+        // ==================== AUTH FUNCTIONS ====================
+        function register() {
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            
+            if (!email || !password || !confirmPassword) {
+                showAlert('Please fill all fields!', 'error');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match!', 'error');
+                return;
+            }
+            if (users[email]) {
+                showAlert('Email already registered!', 'error');
+                return;
+            }
+            
+            users[email] = password;
+            localStorage.setItem('stockpro_users', JSON.stringify(users));
+            showAlert('Registration successful! Please login.', 'success');
+            showLoginPage();
+        }
+        
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showAlert('Please fill all fields!', 'error');
+                return;
+            }
+            
+            if (users[email] && users[email] === password) {
+                currentUser = email;
+                localStorage.setItem('stockpro_currentUser', email);
+                watchlist = JSON.parse(localStorage.getItem(`stockpro_watchlist_${currentUser}`)) || [];
+                renderHeader();
+                showAlert('Login successful!', 'success');
+                showDashboard();
+            } else {
+                showAlert('Invalid email or password!', 'error');
+            }
+        }
+        
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('stockpro_currentUser');
+            watchlist = [];
+            renderHeader();
+            showAlert('Logged out successfully!', 'success');
+            showHomePage();
+        }
+        
+        function renderHeader() {
+            const userInfo = document.getElementById('userInfo');
+            if (currentUser) {
+                userInfo.innerHTML = `
+                    <span style="color:#FFA500; font-weight:500;">Welcome, ${currentUser}</span>
+                    <button class="btn btn-secondary" onclick="logout()">Logout</button>
+                `;
+            } else {
+                userInfo.innerHTML = `
+                    <button class="btn btn-primary" onclick="showLoginPage()">Login</button>
+                    <button class="btn btn-secondary" onclick="showRegisterPage()">Register</button>
+                `;
+            }
+        }
+        
+        // ==================== WATCHLIST FUNCTIONS ====================
+        function addToWatchlist(stockSymbol) {
+            if (!currentUser) {
+                showAlert('Please login to add to watchlist!', 'error');
+                return;
+            }
+            if (!watchlist.includes(stockSymbol)) {
+                watchlist.push(stockSymbol);
+                saveWatchlist();
+                showAlert(`Added ${stockSymbol.toUpperCase()} to watchlist!`, 'success');
+                showDashboard();
+            } else {
+                showAlert(`${stockSymbol.toUpperCase()} already in watchlist!`, 'info');
+            }
+        }
+        
+        function removeFromWatchlist(stockSymbol) {
+            watchlist = watchlist.filter(s => s !== stockSymbol);
+            saveWatchlist();
+            showAlert(`Removed ${stockSymbol.toUpperCase()} from watchlist`, 'success');
+            showDashboard();
+        }
+        
+        // ==================== PAGE RENDERING ====================
+        function showHomePage() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div class="hero">
+                    <div class="logo-icon" style="width:80px; height:80px; margin:0 auto 20px; font-size:40px;">📈</div>
+                    <h1>Welcome to Stock Pro</h1>
+                    <p>Your comprehensive tool for professional stock market analysis</p>
+                    
+                    <div class="features">
+                        <div class="feature-card">
+                            <h3>📊 Fundamental Analysis</h3>
+                            <p>Deep insights into company fundamentals, business models, and growth prospects</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>📈 Technical Analysis</h3>
+                            <p>Support, resistance levels, trend analysis, and momentum indicators</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>💰 5-Year Profit Data</h3>
+                            <p>Historical profit trends and growth patterns</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>👥 Shareholding Pattern</h3>
+                            <p>Promoter, FII, DII, and retail shareholding breakdown</p>
+                        </div>
+                    </div>
+                    
+                    ${!currentUser ? `
+                        <div class="mt-4">
+                            <button class="btn btn-primary btn-block" onclick="showRegisterPage()">Get Started - Create Free Account</button>
+                            <button class="btn btn-secondary btn-block" onclick="showLoginPage()">Login to Existing Account</button>
+                        </div>
+                    ` : `
+                        <div class="mt-4">
+                            <button class="btn btn-primary btn-block" onclick="showDashboard()">Go to Dashboard</button>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+        
+        function showRegisterPage() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div class="auth-container">
+                    <div class="auth-form">
+                        <h2 class="text-center mb-4">📈 Create Stock Pro Account</h2>
+                        <div class="form-group"><label>Email:</label><input type="email" id="regEmail" placeholder="Enter your email"></div>
+                        <div class="form-group"><label>Password:</label><input type="password" id="regPassword" placeholder="Create password (min 6 characters)"></div>
+                        <div class="form-group"><label>Confirm Password:</label><input type="password" id="regConfirmPassword" placeholder="Confirm password"></div>
+                        <button class="btn btn-primary btn-block" onclick="register()">Create Account</button>
+                        <p class="auth-link">Already have an account? <a href="#" onclick="showLoginPage()">Login here</a></p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showLoginPage() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div class="auth-container">
+                    <div class="auth-form">
+                        <h2 class="text-center mb-4">📈 Welcome Back to Stock Pro</h2>
+                        <div class="form-group"><label>Email:</label><input type="email" id="loginEmail" placeholder="Enter your email"></div>
+                        <div class="form-group"><label>Password:</label><input type="password" id="loginPassword" placeholder="Enter your password"></div>
+                        <button class="btn btn-primary btn-block" onclick="login()">Login</button>
+                        <p class="auth-link">Don't have an account? <a href="#" onclick="showRegisterPage()">Create free account</a></p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showDashboard() {
+            if (!currentUser) {
+                showAlert('Please login first!', 'error');
+                showLoginPage();
+                return;
+            }
+            
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div>
+                    <h1 class="text-center">📈 Stock Analysis Dashboard</h1>
+                    <p class="text-center">Select analysis type and enter stock symbol</p>
+                    
+                    <div class="auth-form" style="max-width: 500px; margin: 2rem auto;">
+                        <div class="form-group">
+                            <label>Analysis Type:</label>
+                            <select id="analysisType">
+                                <option value="">Select Analysis Type</option>
+                                <option value="1">📊 Fundamental Analysis</option>
+                                <option value="2">📈 Technical Analysis</option>
+                                <option value="3">💰 5 Year Profit Data</option>
+                                <option value="4">👥 Shareholding Pattern</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Stock Symbol:</label>
+                            <input type="text" id="stockName" placeholder="e.g., rvnl, reliance, tcs">
+                            <small class="form-text">Enter stock name in lowercase (rvnl, reliance, tcs, etc.)</small>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="analyzeStock()">🔍 Analyze Stock</button>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-center">Popular Stocks:</h3>
+                        <div class="stock-grid">
+                            ${availableStocks.map(stock => `
+                                <div class="stock-item" onclick="document.getElementById('stockName').value = '${stock}'">
+                                    ${stock.toUpperCase()}
+                                    <button onclick="event.stopPropagation(); addToWatchlist('${stock}')" style="background:none; border:none; cursor:pointer;">❤️</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="watchlist-section">
+                        <h3>⭐ Your Watchlist</h3>
+                        ${watchlist.length > 0 ? 
+                            watchlist.map(stock => `
+                                <div class="watchlist-item">
+                                    <strong>📊 ${stock.toUpperCase()}</strong>
+                                    <button class="btn-sm btn-danger" onclick="removeFromWatchlist('${stock}')">Remove</button>
+                                </div>
+                            `).join('') : 
+                            '<p>No stocks in watchlist yet. Click ❤️ to add!</p>'}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showAnalysisResult(stock, analysisType, result) {
+            const typeNames = {'1': 'Fundamental Analysis', '2': 'Technical Analysis', '3': '5 Year Profit Data', '4': 'Shareholding Pattern'};
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div>
+                    <div class="text-center mb-4">
+                        <h1>📊 Analysis Result</h1>
+                        <p>Stock: <strong style="color:#FFA500;">${stock.toUpperCase()}</strong> | Analysis: <strong>${typeNames[analysisType]}</strong></p>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-content">${result.replace(/\n/g, '<br>')}</div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary" onclick="showDashboard()">New Analysis</button>
+                        <button class="btn btn-success" onclick="addToWatchlist('${stock}')">❤️ Add to Watchlist</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function analyzeStock() {
+            const analysisType = document.getElementById('analysisType').value;
+            const stockName = document.getElementById('stockName').value.toLowerCase().trim();
+            if (!analysisType || !stockName) {
+                showAlert('Please select analysis type and enter stock name!', 'error');
+                return;
+            }
+            let result = '';
+            switch(analysisType) {
+                case '1': result = stockData.fundamental[stockName] || "Sorry, we don't have fundamental information on this stock yet."; break;
+                case '2': result = stockData.technical[stockName] || "Sorry, we don't have technical analysis on this stock yet."; break;
+                case '3': result = stockData.profit[stockName] || "Sorry, we don't have profit data on this stock yet."; break;
+                case '4': result = stockData.shareholding[stockName] || "Sorry, we don't have shareholding data on this stock yet."; break;
+                default: result = "Invalid analysis type selected.";
+            }
+            showAnalysisResult(stockName, analysisType, result);
+        }
+        
+        // ==================== PWA INSTALL PROMPT ====================
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallButton();
+        });
+        
+        function showInstallButton() {
+            if (window.matchMedia('(display-mode: standalone)').matches) return;
+            const btn = document.createElement('button');
+            btn.innerHTML = '📱 Install Stock Pro App';
+            btn.className = 'btn-install';
+            btn.onclick = async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`Install prompt outcome: ${outcome}`);
+                deferredPrompt = null;
+                btn.remove();
+            };
+            document.body.appendChild(btn);
+            setTimeout(() => { if (btn.parentElement) btn.remove(); }, 10000);
+        }
+        
+        // ==================== INITIALIZATION ====================
+        renderHeader();
+        showHomePage();
+    </script>
+</body>
+</html>
