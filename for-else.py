@@ -9,7 +9,7 @@
 
 
 # menu=["Dosa","Idly","Vada","Pongal"]
-# for menu_index, menu_name in enumerate(menu,start=3):
+# for menu_index, menu_name in enumerate(menu,start=3):       #enumerate is used to get index and value of list
 #     print(f"number:{menu_index} name:{menu_name}")
 
 #Zip 

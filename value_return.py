@@ -20,7 +20,12 @@ def addition():
 
 c_return_value,d_value = addition()
 
-#total = a+ b+ c_return_value
+total = a+ b+ c_return_value+ d_value
 
 print(c_return_value)
 print(d_value)
+print(total)
+
+
+# total = a+ b+ c_return_value+ d_value
+# print(total)
