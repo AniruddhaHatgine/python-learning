@@ -13,7 +13,7 @@ class TransactionLimitError(Exception):
         super().__init__(f"\n Transaction limit exceeded for amount: {amount}")
 
 
-# --- Bank Account Class ---
+# --- Bank Account Class ---   model.py
 
 class BankAccount:
     TRANSACTION_LIMIT = 50000
@@ -44,7 +44,7 @@ class BankAccount:
         return (self.balance * rate) / time
 
 
-# --- Banking Service Layer ---
+# --- Banking Service Layer ---service.py
 
 class BankingService:
     def __init__(self):
@@ -68,7 +68,7 @@ class BankingService:
         return "\n Transfer successful"
 
 
-# --- Main Execution (Simulation) ---
+# --- Main Execution (Simulation) --- main.py
 
 service = BankingService()
 
