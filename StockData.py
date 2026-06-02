@@ -139,7 +139,7 @@ if user_input == 1:
     elif stock_name == "britannia":
         print("Britannia is a leading FMCG company known for biscuits and dairy. Strong brand and distribution. Premium product growth supports future. Demand is stable.")
 
-    elif stock_name == "eicher motors":
+    elif stock_name == "Eicher motors":
         print("Eicher Motors owns Royal Enfield, a premium motorcycle brand. Strong brand loyalty drives growth. Expansion into global markets supports future. Premium segment growth is key.")
 
     elif stock_name == "hero motocorp":
